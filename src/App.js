@@ -1,12 +1,15 @@
 import React from 'react';
 import { createGlobalStyle } from 'styled-components';
+
 import Navbar from './components/Navbar/Navbar';
+import { Banner } from './components/Banner/Banner';
 
 function App() {
   return (
     <>
       <GlobalStyle />
       <Navbar />
+      <Banner />
       <div>Hello Bite-size!</div>
     </>
   );
@@ -17,7 +20,7 @@ export default App;
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
-    background-color: blue;
+    background-color: white;
     
     font-family: 'Lato', sans-serif;
   }
