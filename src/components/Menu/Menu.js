@@ -3,13 +3,19 @@ import styled from 'styled-components';
 
 import { foods } from '../../Data/FoodData';
 import { Food, FoodGrid, FoodLabel } from './FoodGrid';
-export default function Menu() {
+
+export default function Menu({ setOpenFood }) {
   return (
     <MenuStyled>
       <h1>Menu</h1>
       <FoodGrid>
         {foods.map(food => (
-          <Food img={food.img}>
+          <Food
+            img={food.img}
+            onClick={() => {
+              setOpenFood(food);
+            }}
+          >
             <FoodLabel>{food.name}</FoodLabel>
           </Food>
         ))}
