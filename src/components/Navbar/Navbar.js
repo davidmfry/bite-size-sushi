@@ -7,7 +7,7 @@ import { APP_NAME } from '../../config/strings';
 export default function Navbar() {
   return (
     <NavBarStyled>
-      <Logo>${APP_NAME}</Logo>
+      <Logo>{APP_NAME}</Logo>
     </NavBarStyled>
   );
 }
@@ -17,6 +17,7 @@ const NavBarStyled = styled.div`
   padding: 10px;
   position: fixed;
   width: 100%;
+  z-index: 999;
 `;
 
 const Logo = styled(Title)`
