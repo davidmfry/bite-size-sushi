@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Title } from '../../styled/Title';
+import { Title } from '../../styles/Title';
 
 export const FoodGrid = styled.div`
   display: grid;

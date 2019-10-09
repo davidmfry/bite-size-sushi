@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { sushiFishEgg } from '../../styled/colors';
-import { Title } from '../../styled/Title';
+import { sushiFishEgg } from '../../styles/colors';
+import { Title } from '../../styles/Title';
 import { APP_NAME } from '../../config/strings';
 export default function Navbar() {
   return (
