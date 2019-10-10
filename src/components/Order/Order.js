@@ -14,7 +14,14 @@ export default function Order({ orders }) {
       {orders.length === 0 ? (
         <OrderContent>Your order is looking pretty empty</OrderContent>
       ) : (
-        <OrderContent>Fround {orders.length} orders</OrderContent>
+        <OrderContent>
+          <OrderContainer>Your Order:</OrderContainer>
+          {orders.map(order => (
+            <OrderContainer>
+              <OrderItem>{order.name}</OrderItem>
+            </OrderContainer>
+          ))}
+        </OrderContent>
       )}
 
       <DialogFooter>
@@ -42,4 +49,11 @@ const OrderContent = styled(DialogContent)`
   height: 100%;
 `;
 
-const OrderFooter = styled.div``;
+const OrderContainer = styled.div`
+  padding: 10px 0px;
+  border-bottom: 1px solid grey;
+`;
+
+const OrderItem = styled.div`
+  padding: 10px 0;
+`;
