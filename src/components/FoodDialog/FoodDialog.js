@@ -3,14 +3,28 @@ import styled from 'styled-components';
 
 import { FoodLabel } from '../Menu/FoodGrid';
 import { Title } from '../../styles/Title';
-import { sushiFishEgg, sushiGreen } from '../../styles/colors';
+import { sushiFishEgg } from '../../styles/colors';
 
-export default function FoodDialog({ openFood, setOpenFood }) {
+export default function FoodDialog({
+  openFood,
+  setOpenFood,
+  orders,
+  setOrders
+}) {
   function close() {
     setOpenFood();
   }
 
   if (!openFood) return null;
+
+  const order = {
+    name: openFood.name
+  };
+
+  function addToOrder() {
+    setOrders([...orders, order]);
+    close();
+  }
 
   return openFood ? (
     <>
@@ -21,7 +35,7 @@ export default function FoodDialog({ openFood, setOpenFood }) {
         </DialogBanner>
         <DialogContent></DialogContent>
         <DialogFooter>
-          <ConfirmButton>Add To Order</ConfirmButton>
+          <ConfirmButton onClick={addToOrder}>Add To Order</ConfirmButton>
         </DialogFooter>
       </Dialog>
     </>

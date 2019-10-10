@@ -7,10 +7,16 @@ import {
   DialogContent
 } from '../FoodDialog/FoodDialog';
 
-export default function Order() {
+export default function Order({ orders }) {
+  console.log(orders);
   return (
     <OrderStyled>
-      <OrderContent>Your order is looking pretty empty</OrderContent>
+      {orders.length === 0 ? (
+        <OrderContent>Your order is looking pretty empty</OrderContent>
+      ) : (
+        <OrderContent>Fround {orders.length} orders</OrderContent>
+      )}
+
       <DialogFooter>
         <ConfirmButton>Checkout</ConfirmButton>
       </DialogFooter>
