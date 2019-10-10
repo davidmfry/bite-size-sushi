@@ -7,6 +7,8 @@ import {
   DialogContent
 } from '../FoodDialog/FoodDialog';
 
+import { formatPrice } from '../../Data/FoodData';
+
 export default function Order({ orders }) {
   console.log(orders);
   return (
@@ -18,7 +20,12 @@ export default function Order({ orders }) {
           <OrderContainer>Your Order:</OrderContainer>
           {orders.map(order => (
             <OrderContainer>
-              <OrderItem>{order.name}</OrderItem>
+              <OrderItem>
+                <div>1</div>
+                <div>{order.name}</div>
+                <div />
+                <div>{formatPrice(order.price)}</div>
+              </OrderItem>
             </OrderContainer>
           ))}
         </OrderContent>
@@ -56,4 +63,7 @@ const OrderContainer = styled.div`
 
 const OrderItem = styled.div`
   padding: 10px 0;
+  display: grid;
+  grid-template-columns: 20px 140px 20px 60px;
+  justify-content: space-between;
 `;

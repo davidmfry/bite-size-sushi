@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { foods } from '../../Data/FoodData';
 import { Food, FoodGrid, FoodLabel } from './FoodGrid';
+import { formatPrice } from '../../Data/FoodData';
 
 export default function Menu({ setOpenFood }) {
   return (
@@ -16,7 +17,10 @@ export default function Menu({ setOpenFood }) {
               setOpenFood(food);
             }}
           >
-            <FoodLabel>{food.name}</FoodLabel>
+            <FoodLabel>
+              <div>{food.name}</div>
+              <div>{formatPrice(food.price)}</div>
+            </FoodLabel>
           </Food>
         ))}
       </FoodGrid>

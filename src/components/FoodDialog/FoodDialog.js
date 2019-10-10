@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { FoodLabel } from '../Menu/FoodGrid';
 import { Title } from '../../styles/Title';
 import { sushiFishEgg } from '../../styles/colors';
+import { formatPrice } from '../../Data/FoodData';
 
 export default function FoodDialog({
   openFood,
@@ -18,7 +19,7 @@ export default function FoodDialog({
   if (!openFood) return null;
 
   const order = {
-    name: openFood.name
+    ...openFood
   };
 
   function addToOrder() {
@@ -35,7 +36,9 @@ export default function FoodDialog({
         </DialogBanner>
         <DialogContent></DialogContent>
         <DialogFooter>
-          <ConfirmButton onClick={addToOrder}>Add To Order</ConfirmButton>
+          <ConfirmButton onClick={addToOrder}>
+            Add To Order: {formatPrice(order.price)}
+          </ConfirmButton>
         </DialogFooter>
       </Dialog>
     </>
