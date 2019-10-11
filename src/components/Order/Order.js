@@ -9,9 +9,16 @@ import {
 
 import { formatPrice } from '../../Data/FoodData';
 import { getPrice } from '../FoodDialog/FoodDialog';
+import { TAX } from '../../config/strings';
 
 export default function Order({ orders }) {
-  console.log(orders);
+  const subtotal = orders.reduce((total, order) => {
+    return total + getPrice(order);
+  }, 0);
+
+  const tax = subtotal * TAX;
+  const total = subtotal + tax;
+
   return (
     <OrderStyled>
       {orders.length === 0 ? (
@@ -29,6 +36,25 @@ export default function Order({ orders }) {
               </OrderItem>
             </OrderContainer>
           ))}
+          <OrderContainer>
+            <OrderItem>
+              <div />
+              <div>Sub-total</div>
+              <div>{formatPrice(subtotal)}</div>
+            </OrderItem>
+
+            <OrderItem>
+              <div />
+              <div>Tax</div>
+              <div>{formatPrice(tax)}</div>
+            </OrderItem>
+
+            <OrderItem>
+              <div />
+              <div>Total</div>
+              <div>{formatPrice(total)}</div>
+            </OrderItem>
+          </OrderContainer>
         </OrderContent>
       )}
 
