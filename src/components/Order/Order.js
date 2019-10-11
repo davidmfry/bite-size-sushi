@@ -34,6 +34,12 @@ export default function Order({ orders }) {
                 <div />
                 <div>{formatPrice(getPrice(order))}</div>
               </OrderItem>
+              <DetailItem>
+                {order.extras
+                  .filter(extra => extra.checked)
+                  .map(extra => extra.name)
+                  .join(', ')}
+              </DetailItem>
             </OrderContainer>
           ))}
           <OrderContainer>
@@ -93,4 +99,9 @@ const OrderItem = styled.div`
   display: grid;
   grid-template-columns: 20px 140px 20px 60px;
   justify-content: space-between;
+`;
+
+const DetailItem = styled.div`
+  color: grey;
+  font-size: 10px;
 `;

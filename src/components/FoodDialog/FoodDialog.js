@@ -6,9 +6,11 @@ import { Title } from '../../styles/Title';
 import { sushiFishEgg } from '../../styles/colors';
 import { formatPrice } from '../../Data/FoodData';
 import { QuantityInput } from './QuantityInput';
+import { Extras } from './Extras';
 
 //Hooks
 import { useQuantity } from '../../Hooks/useQuantity';
+import { useExtras } from '../../Hooks/useExtras';
 
 export function getPrice(order) {
   return order.quantity * order.price;
@@ -16,6 +18,8 @@ export function getPrice(order) {
 
 function FoodDialogContainer({ openFood, setOpenFood, orders, setOrders }) {
   const quantity = useQuantity(openFood && openFood.quantity);
+  const extras = useExtras(openFood.extras);
+
   function close() {
     setOpenFood();
   }
@@ -24,7 +28,8 @@ function FoodDialogContainer({ openFood, setOpenFood, orders, setOrders }) {
 
   const order = {
     ...openFood,
-    quantity: quantity.value
+    quantity: quantity.value,
+    extras: extras.extras
   };
 
   function addToOrder() {
@@ -41,6 +46,8 @@ function FoodDialogContainer({ openFood, setOpenFood, orders, setOrders }) {
         </DialogBanner>
         <DialogContent>
           <QuantityInput quantity={quantity} />
+          <h3>Do you want extras?</h3>
+          <Extras {...extras} />
         </DialogContent>
         <DialogFooter>
           <ConfirmButton onClick={addToOrder}>
@@ -98,6 +105,7 @@ export const DialogContent = styled.div`
   overflow: auto;
   min-height: 100px;
   padding: 0px 40px;
+  padding-bottom: 80px;
 `;
 
 export const DialogFooter = styled.div`
