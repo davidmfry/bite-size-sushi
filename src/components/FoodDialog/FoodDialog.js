@@ -5,13 +5,17 @@ import { FoodLabel } from '../Menu/FoodGrid';
 import { Title } from '../../styles/Title';
 import { sushiFishEgg } from '../../styles/colors';
 import { formatPrice } from '../../Data/FoodData';
+import { QuantityInput } from './QuantityInput';
 
-export default function FoodDialog({
-  openFood,
-  setOpenFood,
-  orders,
-  setOrders
-}) {
+//Hooks
+import { useQuantity } from '../../Hooks/useQuantity';
+
+export function getPrice(order) {
+  return order.quantity * order.price;
+}
+
+function FoodDialogContainer({ openFood, setOpenFood, orders, setOrders }) {
+  const quantity = useQuantity(openFood && openFood.quantity);
   function close() {
     setOpenFood();
   }
@@ -19,7 +23,8 @@ export default function FoodDialog({
   if (!openFood) return null;
 
   const order = {
-    ...openFood
+    ...openFood,
+    quantity: quantity.value
   };
 
   function addToOrder() {
@@ -34,15 +39,22 @@ export default function FoodDialog({
         <DialogBanner img={openFood.img}>
           <DialogBannerName>{openFood.name}</DialogBannerName>
         </DialogBanner>
-        <DialogContent></DialogContent>
+        <DialogContent>
+          <QuantityInput quantity={quantity} />
+        </DialogContent>
         <DialogFooter>
           <ConfirmButton onClick={addToOrder}>
-            Add To Order: {formatPrice(order.price)}
+            Add To Order: {formatPrice(getPrice(order))}
           </ConfirmButton>
         </DialogFooter>
       </Dialog>
     </>
   ) : null;
+}
+
+export default function FoodDialog(props) {
+  if (!props.openFood) return null;
+  return <FoodDialogContainer {...props} />;
 }
 
 const Dialog = styled.div`
@@ -85,6 +97,7 @@ const DialogBannerName = styled(FoodLabel)`
 export const DialogContent = styled.div`
   overflow: auto;
   min-height: 100px;
+  padding: 0px 40px;
 `;
 
 export const DialogFooter = styled.div`
