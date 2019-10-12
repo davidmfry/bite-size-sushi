@@ -34,12 +34,16 @@ export default function Order({ orders }) {
                 <div />
                 <div>{formatPrice(getPrice(order))}</div>
               </OrderItem>
-              <DetailItem>
-                {order.extras
-                  .filter(extra => extra.checked)
-                  .map(extra => extra.name)
-                  .join(', ')}
-              </DetailItem>
+
+              {order.section === 'Sushi' && (
+                <DetailItem>
+                  {order.extras
+                    .filter(extra => extra.checked)
+                    .map(extra => extra.name)
+                    .join(', ')}
+                </DetailItem>
+              )}
+              {order.choice && <DetailItem>{order.choice}</DetailItem>}
             </OrderContainer>
           ))}
           <OrderContainer>

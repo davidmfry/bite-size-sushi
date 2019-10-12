@@ -7,19 +7,25 @@ import { sushiFishEgg } from '../../styles/colors';
 import { formatPrice } from '../../Data/FoodData';
 import { QuantityInput } from './QuantityInput';
 import { Extras } from './Extras';
+import { Choices } from './Choices';
 
 //Hooks
 import { useQuantity } from '../../Hooks/useQuantity';
 import { useExtras } from '../../Hooks/useExtras';
+import { useChoice } from '../../Hooks/useChoice';
 
 export function getPrice(order) {
   return order.quantity * order.price;
 }
 
+function hasExtras(food) {
+  return food.section === 'Sushi';
+}
+
 function FoodDialogContainer({ openFood, setOpenFood, orders, setOrders }) {
   const quantity = useQuantity(openFood && openFood.quantity);
   const extras = useExtras(openFood.extras);
-
+  const choiceRadio = useChoice(openFood.choice);
   function close() {
     setOpenFood();
   }
@@ -29,7 +35,8 @@ function FoodDialogContainer({ openFood, setOpenFood, orders, setOrders }) {
   const order = {
     ...openFood,
     quantity: quantity.value,
-    extras: extras.extras
+    extras: extras.extras,
+    choice: choiceRadio.value
   };
 
   function addToOrder() {
@@ -46,11 +53,22 @@ function FoodDialogContainer({ openFood, setOpenFood, orders, setOrders }) {
         </DialogBanner>
         <DialogContent>
           <QuantityInput quantity={quantity} />
-          <h3>Do you want extras?</h3>
-          <Extras {...extras} />
+          {hasExtras(openFood) && (
+            <>
+              <h3>Do you want extras?</h3>
+              <Extras {...extras} />
+            </>
+          )}
+
+          {openFood.choices && (
+            <Choices openFood={openFood} choiceRadio={choiceRadio} />
+          )}
         </DialogContent>
         <DialogFooter>
-          <ConfirmButton onClick={addToOrder}>
+          <ConfirmButton
+            onClick={addToOrder}
+            disabled={openFood.choices && !choiceRadio.value}
+          >
             Add To Order: {formatPrice(getPrice(order))}
           </ConfirmButton>
         </DialogFooter>
@@ -90,15 +108,15 @@ const DialogBanner = styled.div`
   min-height: 200px;
   margin-bottom: 20px;
 
-  ${({ img }) => `background-image: url(${img})`};
+  ${({ img }) => (img ? `background-image: url(${img})` : `min-height: 75px`)};
   background-position: center;
   background-size: cover;
 `;
 
 const DialogBannerName = styled(FoodLabel)`
-  top: 100px;
   font-size: 30px;
   padding: 5px 40px;
+  top: ${({ img }) => (img ? '100px' : '20px')};
 `;
 
 export const DialogContent = styled.div`
@@ -126,4 +144,7 @@ export const ConfirmButton = styled(Title)`
   width: 200px;
   cursor: pointer;
   background-color: ${sushiFishEgg};
+
+  ${({ disabled }) =>
+    disabled && `opactiy: .5; background-color: grey; pointer-events: none;`}
 `;
