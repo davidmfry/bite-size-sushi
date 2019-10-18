@@ -11,13 +11,19 @@ import { formatPrice } from '../../Data/FoodData';
 import { getPrice } from '../FoodDialog/FoodDialog';
 import { TAX } from '../../config/strings';
 
-export default function Order({ orders }) {
+export default function Order({ orders, setOrders }) {
   const subtotal = orders.reduce((total, order) => {
     return total + getPrice(order);
   }, 0);
 
   const tax = subtotal * TAX;
   const total = subtotal + tax;
+
+  const deleteItem = index => {
+    const newOrders = [...orders];
+    newOrders.splice(index, 1);
+    setOrders(newOrders);
+  };
 
   return (
     <OrderStyled>
@@ -26,12 +32,19 @@ export default function Order({ orders }) {
       ) : (
         <OrderContent>
           <OrderContainer>Your Order:</OrderContainer>
-          {orders.map(order => (
+          {orders.map((order, index) => (
             <OrderContainer>
               <OrderItem>
                 <div>{order.quantity}</div>
                 <div>{order.name}</div>
-                <div />
+                <div
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    deleteItem(index);
+                  }}
+                >
+                  <span>🗑️</span>
+                </div>
                 <div>{formatPrice(getPrice(order))}</div>
               </OrderItem>
 
