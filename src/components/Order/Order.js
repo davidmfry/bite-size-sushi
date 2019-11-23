@@ -11,7 +11,7 @@ import { formatPrice } from '../../Data/FoodData';
 import { getPrice } from '../FoodDialog/FoodDialog';
 import { TAX } from '../../config/strings';
 
-export default function Order({ orders, setOrders }) {
+export default function Order({ orders, setOrders, setOpenFood }) {
   const subtotal = orders.reduce((total, order) => {
     return total + getPrice(order);
   }, 0);
@@ -33,13 +33,18 @@ export default function Order({ orders, setOrders }) {
         <OrderContent>
           <OrderContainer>Your Order:</OrderContainer>
           {orders.map((order, index) => (
-            <OrderContainer>
-              <OrderItem>
+            <OrderContainer editable>
+              <OrderItem
+                onClick={() => {
+                  setOpenFood({ ...order, index });
+                }}
+              >
                 <div>{order.quantity}</div>
                 <div>{order.name}</div>
                 <div
                   style={{ cursor: 'pointer' }}
-                  onClick={() => {
+                  onClick={e => {
+                    e.stopPropagation();
                     deleteItem(index);
                   }}
                 >
@@ -109,6 +114,15 @@ const OrderContent = styled(DialogContent)`
 const OrderContainer = styled.div`
   padding: 10px 0px;
   border-bottom: 1px solid grey;
+  ${({ editable }) =>
+    editable
+      ? `&: hover {
+    cursor: pointer;
+    background-color: #e7e7e7
+  }`
+      : `
+      pointer-events: none;
+    `}
 `;
 
 const OrderItem = styled.div`
