@@ -11,6 +11,36 @@ import { formatPrice } from '../../Data/FoodData';
 import { getPrice } from '../FoodDialog/FoodDialog';
 import { TAX } from '../../config/strings';
 
+const database = window.firebase.database();
+
+function sendOrder(orders, { email, displayName }) {
+  const newOrderRef = database.ref('orders').push();
+  const newOrders = orders.map(order => {
+    return Object.keys(order).reduce((acc, orderKey) => {
+      if (!order[orderKey]) {
+        return acc;
+      }
+      if (orderKey === 'extras') {
+        return {
+          ...acc,
+          [orderKey]: order[orderKey]
+            .filter(({ checked }) => checked)
+            .map(({ name }) => name)
+        };
+      }
+      return {
+        ...acc,
+        [orderKey]: order[orderKey]
+      };
+    }, {});
+  });
+  newOrderRef.set({
+    order: newOrders,
+    email,
+    displayName
+  });
+}
+
 export default function Order({
   orders,
   setOrders,
@@ -96,7 +126,7 @@ export default function Order({
         <ConfirmButton
           onClick={() => {
             if (loggedIn) {
-              console.log(`logged in`);
+              sendOrder(orders, loggedIn);
             } else {
               login();
             }
