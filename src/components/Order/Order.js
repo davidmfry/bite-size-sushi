@@ -72,6 +72,7 @@ export default function Order({
           {orders.map((order, index) => (
             <OrderContainer editable>
               <OrderItem
+                key={`${order.name}${index}`}
                 onClick={() => {
                   setOpenFood({ ...order, index });
                 }}
