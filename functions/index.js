@@ -23,6 +23,7 @@ exports.sendUserEmail = functions.database
   });
 
 function sendOrderEmail(order) {
+  console.log(order);
   const mailOptions = {
     from: `${APP_NAME} <noreply@bitesizesushi.com>`,
     to: order.email,
@@ -35,9 +36,9 @@ function sendOrderEmail(order) {
         </tr>
         ${order.order
           .map(
-            ({ name, quanity, price }) => `
+            ({ name, quantity, price }) => `
           <tr>
-            <td>${quanity}</td>
+            <td>${quantity}</td>
             <td>${name}</td>
             <td>${price}</td>
           </tr>

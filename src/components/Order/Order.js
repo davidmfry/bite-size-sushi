@@ -131,6 +131,7 @@ export default function Order({
               if (loggedIn) {
                 setOpenOrderDialog(true);
                 sendOrder(orders, loggedIn);
+                console.log(orders);
               } else {
                 login();
               }
