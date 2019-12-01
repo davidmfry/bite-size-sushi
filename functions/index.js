@@ -23,7 +23,6 @@ exports.sendUserEmail = functions.database
   });
 
 function sendOrderEmail(order) {
-  console.log(order);
   const mailOptions = {
     from: `${APP_NAME} <noreply@bitesizesushi.com>`,
     to: order.email,
