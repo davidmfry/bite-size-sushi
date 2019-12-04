@@ -15,8 +15,6 @@ import { useTitle } from './Hooks/useTitle';
 import { useAuthentication } from './Hooks/useAuthentication';
 import { useOrderDialog } from './Hooks/useOrderDialog';
 
-// adding database
-
 function App() {
   const openFood = useOpenFood();
   const orders = useOrders();
